@@ -4,10 +4,10 @@ from auxiliares.constantes import host, user, password, database
 
 def generar_conexion():
     config={
-        'user': user,
-        'password': password,
-        'host': host,
-        'database': database
+        'root': user,
+        '': password,
+        'localhost': host,
+        'api': database
     }
     try:
         conexion = mysql.connector.connect(**config)

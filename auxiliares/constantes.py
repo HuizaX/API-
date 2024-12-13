@@ -1,8 +1,8 @@
 #Configuración para DB
 host = "localhost"
-user = "gestion_empleados"
-password = "a1b2c3d4e5"
-database = "gestion_empleados"
+user = "root"
+password = ""
+database = "api"
 
 #Acciones para DB
 obtener = "SELECT"
