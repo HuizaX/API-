@@ -1,9 +1,9 @@
 
 import requests
 
-def obtener_datos(endpoint):
+def obtener_datos(users):
     """Obtiene datos desde un endpoint de la API JSONPlaceholder."""
-    url = f"https://jsonplaceholder.typicode.com/{endpoint}"
+    url = f"https://jsonplaceholder.typicode.com/{users}"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()

@@ -32,9 +32,9 @@ def buscar_en_serper(consulta):
     except requests.RequestException as e:
         return {"error": "Error al conectar con la API", "detalles": str(e)}
 
-# Ejemplo de uso
+# si quiero buscar algo cambiar consulta
 if __name__ == "__main__":
-    consulta = "Python programming"
+    consulta = "goty"
     
     resultados = buscar_en_serper(consulta)
     print(resultados)
