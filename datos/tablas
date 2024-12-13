@@ -1,0 +1,38 @@
+   # Tabla de usuarios
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            username TEXT NOT NULL,
+            email TEXT NOT NULL,
+            address TEXT,
+            phone TEXT,
+            website TEXT,
+            company TEXT
+        )
+    ''')
+
+    # Tabla de fotos
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS photos (
+            id INTEGER PRIMARY KEY,
+            album_id INTEGER,
+            title TEXT NOT NULL,
+            url TEXT NOT NULL,
+            thumbnail_url TEXT NOT NULL
+        )
+    ''')
+
+    # Tabla de comentarios
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS comments (
+            id INTEGER PRIMARY KEY,
+            post_id INTEGER,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            body TEXT NOT NULL
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
