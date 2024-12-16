@@ -1,7 +1,10 @@
 from cryptography.fernet import Fernet
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, scrolledtext
 from servicios.serper_test import buscar_en_serper
+from servicios.servicio_users import *
+from servicios.servicio_photos import obtener_todas_las_photos
+from servicios.servicio_comments import obtener_todos_los_comentarios
 
 # Funciones de cifrado y descifrado
 def generar_clave():
@@ -123,11 +126,58 @@ def mostrar_pantalla_principal():
         root_busqueda.deiconify()
         root_main.withdraw()
 
+    def abrir_servicios():
+        root_servicios.deiconify()
+        root_main.withdraw()
+
+    def abrir_users():
+        usuarios = obtener_todos_los_usuarios()
+        ventana_usuarios = tk.Toplevel()
+        ventana_usuarios.title("Usuarios")
+
+        text_area = scrolledtext.ScrolledText(ventana_usuarios, wrap=tk.WORD, width=60, height=20)
+        text_area.pack(pady=10, padx=10)
+
+        if usuarios:
+            for usuario in usuarios:
+                text_area.insert(tk.END, f"ID: {usuario['id']}\nNombre: {usuario['name']}\nEmail: {usuario['email']}\n---\n")
+        else:
+            text_area.insert(tk.END, "No se pudieron obtener usuarios.")
+
+    def abrir_photos():
+        fotos = obtener_todas_las_photos()
+        ventana_fotos = tk.Toplevel()
+        ventana_fotos.title("Fotos")
+
+        text_area = scrolledtext.ScrolledText(ventana_fotos, wrap=tk.WORD, width=60, height=20)
+        text_area.pack(pady=10, padx=10)
+
+        if fotos:
+            for foto in fotos[:10]:  # Mostramos solo las primeras 10 fotos para no sobrecargar
+                text_area.insert(tk.END, f"ID: {foto['id']}\nTítulo: {foto['title']}\nURL: {foto['url']}\n---\n")
+        else:
+            text_area.insert(tk.END, "No se pudieron obtener fotos.")
+
+    def abrir_comments():
+        comentarios = obtener_todos_los_comentarios()
+        ventana_comentarios = tk.Toplevel()
+        ventana_comentarios.title("Comentarios")
+
+        text_area = scrolledtext.ScrolledText(ventana_comentarios, wrap=tk.WORD, width=60, height=20)
+        text_area.pack(pady=10, padx=10)
+
+        if comentarios:
+            for comentario in comentarios[:10]:  # Mostramos solo los primeros 10 comentarios
+                text_area.insert(tk.END, f"ID: {comentario['id']}\nNombre: {comentario['name']}\nEmail: {comentario['email']}\nCuerpo: {comentario['body']}\n---\n")
+        else:
+            text_area.insert(tk.END, "No se pudieron obtener comentarios.")
+
     def volver():
         root_main.deiconify()
         root_guardar.withdraw()
         root_validar.withdraw()
         root_busqueda.withdraw()
+        root_servicios.withdraw()
 
     root_main = tk.Toplevel()
     root_main.title("Gestión de Contraseñas")
@@ -142,6 +192,9 @@ def mostrar_pantalla_principal():
 
     btn_busqueda = tk.Button(root_main, text="Realizar Búsqueda en Serper", command=abrir_busqueda)
     btn_busqueda.pack(pady=5)
+
+    btn_servicios = tk.Button(root_main, text="Servicios", command=abrir_servicios)
+    btn_servicios.pack(pady=5)
 
     root_guardar = tk.Toplevel()
     root_guardar.title("Ingresar Contraseña")
@@ -202,12 +255,30 @@ def mostrar_pantalla_principal():
     btn_volver_busqueda = tk.Button(frame_busqueda, text="Volver", command=volver)
     btn_volver_busqueda.grid(row=2, columnspan=2, pady=10)
 
-root = tk.Tk()
-root.title("Inicio")
-root.geometry("300x200")
+    root_servicios = tk.Toplevel()
+    root_servicios.title("Servicios")
+    root_servicios.withdraw()
 
-btn_iniciar = tk.Button(root, text="Comenzar", command=mostrar_pantalla_principal)
-btn_iniciar.pack(expand=True)
+    frame_servicios = tk.Frame(root_servicios, padx=10, pady=10)
+    frame_servicios.pack()
 
-root.mainloop()
+    tk.Label(frame_servicios, text="Seleccione una opción de servicios:").pack(pady=10)
 
+    btn_users = tk.Button(frame_servicios, text="Users", command=abrir_users)
+    btn_users.pack(pady=5)
+
+    btn_photos = tk.Button(frame_servicios, text="Photos", command=abrir_photos)
+    btn_photos.pack(pady=5)
+
+    btn_comments = tk.Button(frame_servicios, text="Comments", command=abrir_comments)
+    btn_comments.pack(pady=5)
+
+    btn_volver_servicios = tk.Button(frame_servicios, text="Volver", command=volver)
+    btn_volver_servicios.pack(pady=10)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Gestión de Contraseñas")
+    root.withdraw()  # Ocultar la ventana principal inicial
+    mostrar_pantalla_principal()
+    root.mainloop()
