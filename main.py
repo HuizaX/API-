@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
 from servicios.serper_test import buscar_en_serper
-from servicios.servicio_users import *
+from servicios.servicio_users import obtener_todos_los_usuarios
 from servicios.servicio_photos import obtener_todas_las_photos
 from servicios.servicio_comments import obtener_todos_los_comentarios
 
